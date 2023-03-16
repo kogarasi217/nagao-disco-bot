@@ -11,4 +11,9 @@ Cargo.lock
 
 .env
 docker-compose.override.yml
+
+# Added by cargo
+
+/target
+/Cargo.lock
 Secrets.toml

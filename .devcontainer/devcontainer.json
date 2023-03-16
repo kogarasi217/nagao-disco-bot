@@ -18,13 +18,12 @@
   "settings": {},
   // Add the IDs of extensions you want installed when the container is created.
   "extensions": [
-	"editorconfig.editorconfig",
-	"matklad.rust-analyzer",
-	"vadimcn.vscode-lldb",
-	"bungcip.better-toml",
-	"serayuzgur.crates",
-	"ms-azuretools.vscode-docker"
-]
+    "vadimcn.vscode-lldb",
+    "mutantdino.resourcemonitor",
+    "matklad.rust-analyzer",
+    "tamasfe.even-better-toml",
+    "serayuzgur.crates"
+  ]
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   // "forwardPorts": [],
   // Uncomment the next line if you want start specific services in your Docker Compose config.
