@@ -1,12 +1,15 @@
 use dotenv::dotenv;
 use reqwest::header::HeaderMap;
-use serde::{Deserialize, Serialize};
 use serenity::async_trait;
 use serenity::model::channel::Message;
 use serenity::model::gateway::Ready;
 use serenity::prelude::*;
 use std::{collections::HashMap, env};
 use tracing::{error, info};
+
+#[path = "./models/chatgpt_api.rs"]
+mod chatgpt_api;
+use chatgpt_api::*;
 
 struct Bot;
 
@@ -17,15 +20,21 @@ impl EventHandler for Bot {
         if msg.author.bot || msg.is_private() || msg.channel_id != 1085572570595737701 {
             return;
         }
+
+        // called hello
         if msg.content == "!hello" {
             if let Err(e) = msg.channel_id.say(&ctx.http, "world!").await {
                 error!("Error sending message: {:?}", e);
             }
-        } else if msg.content == "!rust" {
+        }
+        // called rust
+        else if msg.content == "!rust" {
             if let Err(e) = msg.channel_id.say(&ctx.http, "change the world.").await {
                 error!("Error sending message: {:?}", e);
             }
-        } else if msg.content.starts_with("!gpt ") {
+        }
+        // called gpt
+        else if msg.content.starts_with("!gpt ") {
             let message = msg.content.replace("!gpt ", "");
             info!("called ChatGPT '{}'", message);
 
@@ -41,7 +50,7 @@ impl EventHandler for Bot {
     }
 }
 
-pub async fn call_chat_gpt_api(message: String) -> String {
+async fn call_chat_gpt_api(message: String) -> String {
     let api_key = env::var("CHATGPT_API_KEY").expect("'CHATGPT_API_KEY' was not found");
 
     let openai_url = "https://api.openai.com/v1/chat/completions";
@@ -66,8 +75,6 @@ pub async fn call_chat_gpt_api(message: String) -> String {
         messages,
     };
 
-    info!("{:?}", serde_json::to_string(&request_body));
-
     let client = reqwest::Client::new();
     let req = client
         .post(openai_url)
@@ -80,18 +87,6 @@ pub async fn call_chat_gpt_api(message: String) -> String {
         .await
         .expect("failed to convert json");
 
-    // let gpt_response = match req {
-    //     Ok(res) => res,
-    //     Err(err) => {
-    //         panic!("{:?}", err);
-    //     }
-    // };
-
-    // if !gpt_response.status().is_success() {
-    //     error!("Fail to post...");
-    // }
-
-    // let j = gpt_response.json();
     let res_message = req.choices[0]
         .message
         .get("content")
@@ -121,37 +116,4 @@ async fn serenity() -> shuttle_service::ShuttleSerenity {
         .expect("Err creating client");
 
     Ok(client)
-}
-
-// === structs ===
-#[derive(Serialize, Deserialize)]
-struct ChatRequest {
-    model: String,
-    messages: Vec<HashMap<String, String>>,
-}
-
-#[allow(dead_code)]
-#[derive(Deserialize)]
-struct ChatResponse {
-    id: String,
-    object: String,
-    created: u32,
-    choices: Vec<Choices>,
-    usage: Usage,
-}
-
-#[allow(dead_code)]
-#[derive(Deserialize)]
-struct Choices {
-    index: u32,
-    message: HashMap<String, String>,
-    finish_reason: String,
-}
-
-#[allow(dead_code)]
-#[derive(Deserialize)]
-struct Usage {
-    prompt_tokens: u32,
-    completion_tokens: u32,
-    total_tokens: u32,
 }
