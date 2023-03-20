@@ -20,9 +20,10 @@
   "extensions": [
     "vadimcn.vscode-lldb",
     "mutantdino.resourcemonitor",
-    "matklad.rust-analyzer",
     "tamasfe.even-better-toml",
-    "serayuzgur.crates"
+    "serayuzgur.crates",
+    "rust-lang.rust-analyzer",
+    "ms-azuretools.vscode-docker"
   ]
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   // "forwardPorts": [],

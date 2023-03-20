@@ -17,3 +17,5 @@ docker-compose.override.yml
 /target
 /Cargo.lock
 Secrets.toml
+
+glibc-2.29/*
