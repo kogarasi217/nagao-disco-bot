@@ -1,10 +1,12 @@
 FROM rust:1.68-bullseye
 
 RUN apt-get update && \
-    apt-get -y install git protobuf-compiler build-essential && \
+    apt-get -y install git && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
-    rustup update
+    rustup update &&\
+    rustup component add rls rust-analysis rust-src rustfmt clippy && \
+    cargo install cargo-edit cargo-watch
 
 # ready to shuttle
 RUN cargo install cargo-shuttle
