@@ -2,6 +2,7 @@ FROM rust:1.68-bullseye
 
 RUN apt-get update && \
     apt-get -y install git && \
+    apt-get -y install protobuf-compiler && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/* && \
     rustup update
