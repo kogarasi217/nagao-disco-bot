@@ -1,0 +1,28 @@
+name: Deployment to shuttle
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: build
+        uses: docker/build-push-actions@v4
+        with:
+          file: ${{ github.workspace }}/docker/rust/Dockerfile.release
+          tags: shuttleapp
+          push: false
+      
+      - name: run
+        uses: addnab/docker-run-action@v3
+        with:
+          image: shuttleapp
+          run: |
+            cargo --version

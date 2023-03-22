@@ -4,7 +4,7 @@ services:
   rust:
     build:
       context: .
-      dockerfile: docker/rust/Dockerfile
+      dockerfile: docker/rust/Dockerfile.local
     tty: true
     working_dir: /workspace
     volumes:
