@@ -13,6 +13,5 @@
 `cargo shuttle deploy`
 
 # ToDo
-- In devcontainer, rust suggestions no working
 - In GitHub Actions, Shuttle deploying.
-- ChatGPT Api called.
+  - apply .env
