@@ -6,8 +6,6 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* && \
     rustup update
 
-RUN alias protoc='protoc $1 --experimental_allow_proto3_optional'
-RUN alias
-
 # ready to shuttle
-RUN cargo install cargo-shuttle
+# v0.12.0 need protoc experimental mode.
+RUN cargo install cargo-shuttle@0.11.2
