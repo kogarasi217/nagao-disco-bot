@@ -25,3 +25,4 @@ jobs:
           image: shuttleapp
           run: |
             cargo --version
+            cargo shuttle --version
